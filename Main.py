@@ -127,7 +127,7 @@ def print_dir(directory, parent_has_sibling=False, depth=0, tree_lines=[""]):
                     )
 
         if len(files) > 4:
-            print(f'{"".join(tree_lines[:-1])}     ({len(files) - 4} more files)')
+            print(f'{"".join(tree_lines[:-1])}     ({len(files) - 4:,} more files)')
 
         return
         # print(f"dirs: {dirs}")
