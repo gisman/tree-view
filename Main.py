@@ -2,28 +2,18 @@ import os
 import sys
 import argparse
 
-"""## 요건
-    * zip, tar, tar.gz 지원 안 함. 압축 풀고 실행.
-    * size(human readable)
+"""
+linux tree utility의 개선.
+
+bigdata 분석 및 문서화에 활용하기 좋은 기능을 추가.
+
+## 요건
+    * tree 구조 출력
+    * size: human readable
     * file count
-    * 3 files as example
+    * file list limit
     * 📂 이모지
-    * works on directory
-* tree 구조로 출력
 
-
-│   └── [ 12K]  viz_flow_occ_dilate_1
-│       ├── [144K]  000000_10.png
-│       ├── [195K]  000001_10.png
-│       ├── [167K]  000002_10.png
-
-
-최종 결과물
-│   └📂 viz_flow_occ_dilate_1 [ 12M]
-│       ├ 000000_10.png [144K]
-│       ├ 000001_10.png [195K]
-│       ├ 000002_10.png [167K]
-│       └ 123,456 개의 파일이 더 있음
 """
 
 
@@ -48,7 +38,7 @@ def get_directory_size(directory):
     return total_size
 
 
-def has_sibling_directory(root, dirs_only):
+def has_sibling(root, dirs_only):
     parent_dir = os.path.dirname(root)
     if not parent_dir:
         return False
@@ -85,7 +75,7 @@ def print_dir(
     for root, dirs, files in os.walk(directory):
         dir_name = os.path.basename(os.path.normpath(root))
         dir_size = get_directory_size(root)
-        has_sibling = False
+        dir_has_sibling = False
         if depth > 0:
             if parent_has_sibling:
                 tree_lines[depth - 1] = "│   "
@@ -93,7 +83,7 @@ def print_dir(
                 if depth > 1:
                     tree_lines[depth - 1] = "    "
 
-            has_sibling = has_sibling_directory(directory, DIRS_ONLY)
+            dir_has_sibling = has_sibling(directory, DIRS_ONLY)
 
         file_count_str = f"    {len(files):,} 개의 파일" if len(files) > 0 else ""
 
@@ -112,7 +102,7 @@ def print_dir(
 
             print_dir(
                 f"{directory}/{dir}",
-                parent_has_sibling=has_sibling,
+                parent_has_sibling=dir_has_sibling,
                 depth=depth + 1,
                 tree_lines=tl,
             )
@@ -120,7 +110,7 @@ def print_dir(
         if DIRS_ONLY:
             return
 
-        print_files(root, files, tree_lines, has_sibling)
+        print_files(root, files, tree_lines, dir_has_sibling)
         return
 
 
@@ -137,11 +127,6 @@ def print_files(root, files, tree_lines, parent_has_sibling):
 
         is_last = i == len(files[:MAX_FILES]) - 1
 
-        # if "tl" in locals():
-        #     print(
-        #         f'{"".join(tl[:-1])}{"└" if is_last else "├"}── {name} [{human_readable_size(file_size)}]'
-        #     )
-        # else:
         print(
             path_line,
             f'{"└" if is_last else "├"}── {name} [{human_readable_size(file_size)}]',
@@ -161,25 +146,20 @@ def main(directory):
     print_dir(directory)
 
 
-def print_usage():
-    print("Usage: python Main.py <dir>")
-    print("dir: directory to read")
-
-
 if __name__ == "__main__":
-    # read arguments from command line
-    # args = sys.argv
-    # if len(args) > 1:
-    #     directory = args[1]
-    # else:
-    #     print_usage()
-    #     exit(1)
 
-    parser = argparse.ArgumentParser(description="List directory contents.")
+    parser = argparse.ArgumentParser(
+        description="List directory contents.",
+        epilog="github: https://github.com/gisman/tree-view",
+    )
+
+    # 디렉토리만 출력하는 옵션
     parser.add_argument("directory", help="Directory to read")
     parser.add_argument(
         "-d", action="store_true", help="List directories only", default=False
     )
+
+    # 출력 Depth를 제한하는 옵션. 기본값은 -1
     parser.add_argument(
         "-L",
         "--level",
@@ -187,6 +167,7 @@ if __name__ == "__main__":
         help="Descend only level directories deep",
         default=-1,
     )
+
     # 디렉토리 내의 파일을 최대 N개 까지만 출력하는 옵션. 기본값은 4
     parser.add_argument(
         "-n",
@@ -197,15 +178,17 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    if not args.directory:
-        print_usage()
-        exit(1)
 
     DIRS_ONLY = args.d
     LEVEL = args.level
     if args.max_files < 0:
-        MAX_FILES = 1000000
+        MAX_FILES = 1000000  # 100만개로 제한
     else:
         MAX_FILES = args.max_files
+
+    # check if the directory exists
+    if not os.path.isdir(args.directory):
+        print("The directory does not exists.")
+        sys.exit
 
     main(args.directory)
