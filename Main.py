@@ -44,11 +44,16 @@ class Tree:
     def summary(self):
         return str(self.dirCount) + " directories, " + str(self.fileCount) + " files"
 
-    def walk(self, directory, prefix="", depth=0):  # , num_files=0):
+    # def print_root(self, args.directory):
+
+    def walk(self, directory, prefix="", depth=0, is_root=True):  # , num_files=0):
         if LEVEL > -1 and depth > LEVEL:
             return
 
-        all_filepaths = sorted(os.listdir(directory))
+        if is_root:
+            all_filepaths = ["."]
+        else:
+            all_filepaths = sorted(os.listdir(directory))
         dir_only_paths = [
             filepath
             for filepath in all_filepaths
@@ -66,8 +71,8 @@ class Tree:
             filepaths = dir_only_paths + file_only_paths[:MAX_FILES]
 
         for index in range(len(filepaths)):
-            if filepaths[index][0] == ".":
-                continue
+            # if filepaths[index][0] == ".":
+            #     continue
 
             absolute = os.path.join(directory, filepaths[index])
             is_dir_path = os.path.isdir(absolute)
@@ -84,8 +89,16 @@ class Tree:
                 file_count_str = f" {num_files:,}개의 파일" if num_files > 0 else ""
                 dir_size = get_directory_size(absolute)
                 dir_size_str = f"{human_readable_size(dir_size)}"
-                paddding = 40 - (wcswidth(prefix) + len(filepaths[index]))
-                formatted_output = f"{emoji} {filepaths[index]}{' ' * paddding} [{dir_size_str}{file_count_str}]"
+
+                if is_root:
+                    directory_title = os.path.basename(os.path.normpath(directory))
+                else:
+                    directory_title = filepaths[index]
+                paddding = 40 - (wcswidth(prefix) + len(directory_title))
+
+                formatted_output = f"{emoji} {directory_title}{' ' * paddding} [{dir_size_str}{file_count_str}]"
+                # else:
+                #     formatted_output = f"{emoji} {filepaths[index]}{' ' * paddding} [{dir_size_str}{file_count_str}]"
             else:
                 # file 출력
                 emoji = "📄"
@@ -107,26 +120,8 @@ class Tree:
                     absolute,
                     new_prefix,
                     depth=depth + 1,
+                    is_root=False,
                 )
-
-            # if index == len(filepaths) - 1:
-            #     print(f"{prefix}└──{formatted_output}")
-
-            #     if is_dir_path:
-            #         self.walk(
-            #             absolute,
-            #             prefix + "    ",
-            #             depth=depth + 1,
-            #         )
-            # else:
-            #     print(f"{prefix}├──{formatted_output}")
-
-            #     if is_dir_path:
-            #         self.walk(
-            #             absolute,
-            #             prefix + "│   ",
-            #             depth=depth + 1,
-            #         )
 
 
 if __name__ == "__main__":
@@ -177,4 +172,4 @@ if __name__ == "__main__":
     tree = Tree()
     tree.walk(args.directory)
 
-    print("\n" + tree.summary())
+    # print("\n" + tree.summary())

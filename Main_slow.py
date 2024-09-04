@@ -1,6 +1,7 @@
 import os
 import sys
 import argparse
+from wcwidth import wcswidth
 
 """
 linux tree utility의 개선.
@@ -87,8 +88,9 @@ def print_dir(
 
         file_count_str = f"    {len(files):,}개의 파일" if len(files) > 0 else ""
 
+        paddding = 40 - (wcswidth(f'{"".join(tree_lines)}📂 {dir_name}'))
         print(
-            f'{"".join(tree_lines)}📂 {dir_name} [{human_readable_size(dir_size)}{file_count_str}]'
+            f'{"".join(tree_lines)}📂 {dir_name}{' ' * paddding} [{human_readable_size(dir_size)}{file_count_str}]'
         )
         dirs.sort()
 
@@ -129,7 +131,7 @@ def print_files(root, files, tree_lines, parent_has_sibling):
 
         print(
             path_line,
-            f'{"└" if is_last else "├"}── {name} [{human_readable_size(file_size)}]',
+            f'{"└" if is_last else "├"}──📄 {name} [{human_readable_size(file_size)}]',
             sep="",
         )
 
