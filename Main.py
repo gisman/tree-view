@@ -12,6 +12,7 @@ https://github.com/kddnewton/tree/blob/main/tree.py
 DIRS_ONLY = False
 LEVEL = -1
 MAX_FILES = 4
+PRINT_FILES_FIRST = False
 
 
 def human_readable_size(size):
@@ -54,21 +55,22 @@ class Tree:
             all_filepaths = ["."]
         else:
             all_filepaths = sorted(os.listdir(directory))
+
         dir_only_paths = [
             filepath
             for filepath in all_filepaths
             if os.path.isdir(os.path.join(directory, filepath))
+            and filepath not in ["__MACOSX", "venv", ".git", ".idea", "node_modules"]
         ]
-        file_only_paths = [
-            filepath
-            for filepath in all_filepaths
-            if not os.path.isdir(os.path.join(directory, filepath))
-        ]
+        file_only_paths = self.list_files(directory, all_filepaths)
 
         if DIRS_ONLY:
             filepaths = dir_only_paths
         else:
-            filepaths = dir_only_paths + file_only_paths[:MAX_FILES]
+            if PRINT_FILES_FIRST:  # 파일을 먼저 출력하고 디렉토리를 출력
+                filepaths = file_only_paths[:MAX_FILES] + dir_only_paths
+            else:  # 디렉토리를 먼저 출력하고 파일을 출력
+                filepaths = dir_only_paths + file_only_paths[:MAX_FILES]
 
         for index in range(len(filepaths)):
             # if filepaths[index][0] == ".":
@@ -79,13 +81,14 @@ class Tree:
             if is_dir_path:
                 # directory 출력
                 emoji = "📂"
-                num_files = len(
-                    [
-                        f
-                        for f in os.listdir(absolute)
-                        if os.path.isfile(os.path.join(absolute, f))
-                    ]
-                )
+                # num_files = len(
+                #     [
+                #         f
+                #         for f in os.listdir(absolute)
+                #         if os.path.isfile(os.path.join(absolute, f))
+                #     ]
+                # )
+                num_files = len(self.list_files(absolute, os.listdir(absolute)))
                 file_count_str = f" {num_files:,}개의 파일" if num_files > 0 else ""
                 dir_size = get_directory_size(absolute)
                 dir_size_str = f"{human_readable_size(dir_size)}"
@@ -94,11 +97,10 @@ class Tree:
                     directory_title = os.path.basename(os.path.normpath(directory))
                 else:
                     directory_title = filepaths[index]
-                paddding = 40 - (wcswidth(prefix) + len(directory_title))
+
+                paddding = self.get_padding(prefix, is_root, directory_title)
 
                 formatted_output = f"{emoji} {directory_title}{' ' * paddding} [{dir_size_str}{file_count_str}]"
-                # else:
-                #     formatted_output = f"{emoji} {filepaths[index]}{' ' * paddding} [{dir_size_str}{file_count_str}]"
             else:
                 # file 출력
                 emoji = "📄"
@@ -108,12 +110,21 @@ class Tree:
 
             self.register(absolute)
 
-            if index == len(filepaths) - 1:
-                print(f"{prefix}└──{formatted_output}")
+            if index == len(filepaths) - 1:  # 마지막 항목인 경우
+                if PRINT_FILES_FIRST and not is_dir_path:
+                    print(f"{prefix}{'' if is_root else '  '} {formatted_output}")
+                else:
+                    print(f"{prefix}{'' if is_root else '└──'} {formatted_output}")
                 new_prefix = prefix + "    "
             else:
-                print(f"{prefix}├──{formatted_output}")
-                new_prefix = prefix + "│   "
+                if PRINT_FILES_FIRST and not is_dir_path:
+                    if dir_only_paths:
+                        print(f"{prefix}{'' if is_root else '│  '} {formatted_output}")
+                    else:
+                        print(f"{prefix}   {formatted_output}")
+                else:
+                    print(f"{prefix}├── {formatted_output}")
+                new_prefix = prefix + "│   "
 
             if is_dir_path:
                 self.walk(
@@ -122,6 +133,22 @@ class Tree:
                     depth=depth + 1,
                     is_root=False,
                 )
+
+    def list_files(self, directory, all_filepaths):
+        return [
+            filepath
+            for filepath in all_filepaths
+            if not os.path.isdir(os.path.join(directory, filepath))
+            and filepath not in ("_.DS_Store", ".DS_Store")
+            and filepath[0] != "."  # 숨김파일 제외
+        ]
+
+    def get_padding(self, prefix, is_root, directory_title):
+        paddding = 40 - (
+            wcswidth(prefix) + len("" if is_root else "└──") + len(directory_title)
+        )
+
+        return paddding
 
 
 if __name__ == "__main__":
@@ -155,6 +182,15 @@ if __name__ == "__main__":
         default=4,
     )
 
+    # 파일을 먼저 출력하고 디렉토리를 출력하는 옵션
+    parser.add_argument(
+        "-f",
+        "--files-first",
+        action="store_true",
+        help="Print files before directories",
+        default=False,
+    )
+
     args = parser.parse_args()
 
     DIRS_ONLY = args.d
@@ -163,6 +199,8 @@ if __name__ == "__main__":
         MAX_FILES = 1000000  # 100만개로 제한
     else:
         MAX_FILES = args.max_files
+
+    PRINT_FILES_FIRST = args.files_first
 
     # check if the directory exists
     if not os.path.isdir(args.directory):
