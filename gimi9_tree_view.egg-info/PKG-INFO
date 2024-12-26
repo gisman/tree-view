@@ -1,21 +1,17 @@
 Metadata-Version: 2.1
-Name: gimi9_tree_view
-Version: 0.5
-Summary: Visual tree utility
+Name: gimi9-tree-view
+Version: 0.5.3
+Summary: Visual treeview utility
 Home-page: https://github.com/gisman/tree-view
 Author: gisman
 Author-email: gisman@gmail.com
 License: CC-BY-NC-SA-4.0
+Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: Operating System :: POSIX :: Linux
-Requires-Python: >=3.10
+Requires-Python: >=3.2
 Description-Content-Type: text/markdown
 License-File: LICENSE
-Requires-Dist: build==1.2.2.post1
-Requires-Dist: packaging==24.2
-Requires-Dist: pyproject_hooks==1.2.0
-Requires-Dist: tomli==2.2.1
-Requires-Dist: wcwidth==0.2.13
 
 linux tree utility의 개선.
 
@@ -111,3 +107,5 @@ treeview -n 1 3d_car_instance_sample
     └──📂 split [29 KB    2 개의 파일]
        └── train.txt [21 KB]
 ```
+
+

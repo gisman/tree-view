@@ -1,6 +1,8 @@
 LICENSE
 README.md
 setup.py
+gimi9_tree_view/__init__.py
+gimi9_tree_view/treeview.py
 gimi9_tree_view.egg-info/PKG-INFO
 gimi9_tree_view.egg-info/SOURCES.txt
 gimi9_tree_view.egg-info/dependency_links.txt

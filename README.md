@@ -1,21 +1,26 @@
-linux tree utility의 개선.
+Improved version of the Linux tree utility.
 
-bigdata 분석 및 문서화에 활용하기 좋은 기능을 포함.
+Includes features useful for big data analysis and documentation.
 
-Python 3.12.3 기준으로 작성되었으며, Python 3.10 이상에서 동작합니다. 아마도 3.2 이상이면 다 동작할 것으로 예상됩니다.
- 
+Written for Python 3.12.3, works on Python 3.10 and above. It is expected to work on Python 3.2 and above.
 
-## 기능
+## Features
 
-* tree 구조 출력
-* size: human readable
-* file count
-* file list limit
-* 📂 emoji
+* Tree structure output
+* Size: human-readable
+* File count
+* File list limit
+* Pretty diretory emoji 📂
 
-treeview -h
+
+## Usage
+
+### Print help
+
+> $ treeview -h
+
 ```
-usage: Main.py [-h] [-d] [-L LEVEL] [-n MAX_FILES] directory
+usage: treeview [-h] [-d] [-L LEVEL] [-n MAX_FILES] [-f] directory
 
 List directory contents.
 
@@ -29,55 +34,62 @@ options:
                         Descend only level directories deep
   -n MAX_FILES, --max-files MAX_FILES
                         Print only N files in each directory
+  -f, --files-first     Print files before directories
+
+github: https://github.com/gisman/tree-view
 ```
 
-## 출력 예
+### Default
+> $ treeview 3d_car_instance_sample
 
-treeview 3d_car_instance_sample
+```
+ 📂 3d_car_instance_sample                   [2GB]
+    ├── 📂 camera                            [340B 2개의 파일]
+    │   ├── 📄 5.cam [169B]
+    │   └── 📄 6.cam [171B]
+    ├── 📂 car_models                        [25MB 79개의 파일]
+    │   ├── 📄 019-SUV.pkl [338KB]
+    │   ├── 📄 036-CAR01.pkl [329KB]
+    │   ├── 📄 037-CAR02.pkl [354KB]
+    │   └── 📄 MG-GT-2015.pkl [313KB]
+    ├── 📂 car_poses                         [1MB 1,003개의 파일]
+    │   ├── 📄 180116_053947113_Camera_5.json [1KB]
+    │   ├── 📄 180116_053947909_Camera_5.json [2KB]
+    │   ├── 📄 180116_053948523_Camera_5.json [2KB]
+    │   └── 📄 180116_053949115_Camera_5.json [1KB]
+    ├── 📂 images                            [2GB 1,003개의 파일]
+    │   ├── 📄 180116_053947113_Camera_5.jpg [2MB]
+    │   ├── 📄 180116_053947909_Camera_5.jpg [2MB]
+    │   ├── 📄 180116_053948523_Camera_5.jpg [2MB]
+    │   └── 📄 180116_053949115_Camera_5.jpg [2MB]
+    └── 📂 split                             [29KB 2개의 파일]
+        ├── 📄 train.txt [21KB]
+        └── 📄 val.txt [8KB]
+```
+
+### List directories only
+> $ treeview -d 3d_car_instance_sample
 ```
 📂 3d_car_instance_sample [2 GB]
 └──📂 3d_car_instance_sample [2 GB]
     ├──📂 camera [340 B    2 개의 파일]
-    │   ├── 5.cam [169 B]
-    │   └── 6.cam [171 B]
-    ├──📂 car_models [25 MB    79 개의 파일]
-    │   ├── 019-SUV.pkl [338 KB]
-    │   ├── 036-CAR01.pkl [329 KB]
-    │   ├── 037-CAR02.pkl [354 KB]
-    │   └── MG-GT-2015.pkl [313 KB]
-    ├──📂 car_poses [1 MB    1,003 개의 파일]
-    │   ├── 180116_053947113_Camera_5.json [1 KB]
-    │   ├── 180116_053947909_Camera_5.json [2 KB]
-    │   ├── 180116_053948523_Camera_5.json [2 KB]
-    │   └── 180116_053949115_Camera_5.json [1 KB]
-    ├──📂 images [2 GB    1,003 개의 파일]
-    │   ├── 180116_053947113_Camera_5.jpg [2 MB]
-    │   ├── 180116_053947909_Camera_5.jpg [2 MB]
-    │   ├── 180116_053948523_Camera_5.jpg [2 MB]
-    │   └── 180116_053949115_Camera_5.jpg [2 MB]
-    └──📂 split [29 KB    2 개의 파일]
-       ├── train.txt [21 KB]
-       └── val.txt [8 KB]
-```
-
-treeview -d 3d_car_instance_sample
-```
-📂 3d_car_instance_sample [2 GB]
-└──📂 3d_car_instance_sample [2 GB]
-    ├──📂 camera [340 B    2 개의 파일]
     ├──📂 car_models [25 MB    79 개의 파일]
     ├──📂 car_poses [1 MB    1,003 개의 파일]
     ├──📂 images [2 GB    1,003 개의 파일]
     └──📂 split [29 KB    2 개의 파일]
 ```
 
-reeview -d -L 1 3d_car_instance_sample
+### Depth limit
+
+> $ treeview -d -L 1 3d_car_instance_sample
 ```
 📂 3d_car_instance_sample [2 GB]
 └──📂 3d_car_instance_sample [2 GB]
 ```
 
-treeview -n 1 3d_car_instance_sample
+### File List limit
+
+> $ treeview -n 1 3d_car_instance_sample
 ```
 📂 3d_car_instance_sample [2 GB]
 └──📂 3d_car_instance_sample [2 GB]

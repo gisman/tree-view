@@ -3,10 +3,10 @@ from setuptools import setup, find_packages
 
 setup(
     name="gimi9_tree_view",
-    version="0.5",
+    version="0.5.3",
     author="gisman",
     author_email="gisman@gmail.com",
-    description="Visual tree utility",
+    description="Visual treeview utility",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/gisman/tree-view",
@@ -22,6 +22,12 @@ setup(
         "Operating System :: POSIX :: Linux",
     ],
     license="CC-BY-NC-SA-4.0",
-    python_requires=">=3.10",
-    install_requires=open("requirements.txt").read().splitlines(),
+    python_requires=">=3.2",
+    # install_requires=open("requirements.txt").read().splitlines(),
+    install_requires=["tomli", "wcwidth", "argparse"],
+    entry_points={
+        "console_scripts": [
+            "treeview=gimi9_tree_view.treeview:main",
+        ],
+    },
 )
