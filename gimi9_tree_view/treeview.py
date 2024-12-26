@@ -1,5 +1,5 @@
-import os
 import sys
+import os
 import argparse
 from wcwidth import wcswidth
 
@@ -8,6 +8,7 @@ github의 오픈소스 참고.
 https://github.com/kddnewton/tree
 https://github.com/kddnewton/tree/blob/main/tree.py
 """
+
 
 DIRS_ONLY = False
 LEVEL = -1
@@ -151,8 +152,7 @@ class Tree:
         return paddding
 
 
-if __name__ == "__main__":
-
+def main():
     parser = argparse.ArgumentParser(
         description="List directory contents.",
         epilog="github: https://github.com/gisman/tree-view",
@@ -207,7 +207,11 @@ if __name__ == "__main__":
         print("The directory does not exists.")
         sys.exit
 
-    tree = Tree()
-    tree.walk(args.directory)
+    t = Tree()
+    t.walk(args.directory)
 
     # print("\n" + tree.summary())
+
+
+if __name__ == "__main__":
+    main()
