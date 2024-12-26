@@ -1,3 +1,5 @@
+# Gimi9 Tree View
+
 Improved version of the Linux tree utility.
 
 Includes features useful for big data analysis and documentation.
@@ -12,6 +14,9 @@ Written for Python 3.12.3, works on Python 3.10 and above. It is expected to wor
 * File list limit
 * Pretty diretory emoji 📂
 
+## Installation
+
+> $ pip install gimi9_tree_view
 
 ## Usage
 
@@ -68,39 +73,44 @@ github: https://github.com/gisman/tree-view
 ```
 
 ### List directories only
+
 > $ treeview -d 3d_car_instance_sample
+
 ```
-📂 3d_car_instance_sample [2 GB]
-└──📂 3d_car_instance_sample [2 GB]
-    ├──📂 camera [340 B    2 개의 파일]
-    ├──📂 car_models [25 MB    79 개의 파일]
-    ├──📂 car_poses [1 MB    1,003 개의 파일]
-    ├──📂 images [2 GB    1,003 개의 파일]
-    └──📂 split [29 KB    2 개의 파일]
+ 📂 3d_car_instance_sample                   [2GB]
+    ├── 📂 camera                            [340B 2개의 파일]
+    ├── 📂 car_models                        [25MB 79개의 파일]
+    ├── 📂 car_poses                         [1MB 1,003개의 파일]
+    ├── 📂 images                            [2GB 1,003개의 파일]
+    └── 📂 split                             [29KB 2개의 파일]
 ```
 
 ### Depth limit
 
-> $ treeview -d -L 1 3d_car_instance_sample
+> $ treeview -d -L 1 train
 ```
-📂 3d_car_instance_sample [2 GB]
-└──📂 3d_car_instance_sample [2 GB]
+ 📂 train                                    [9GB 1개의 파일]
+    ├── 📂 camera                            [66B 1개의 파일]
+    ├── 📂 car_poses                         [12MB 4,283개의 파일]
+    ├── 📂 ignore_mask                       [614MB 4,283개의 파일]
+    ├── 📂 images                            [8GB 4,283개의 파일]
+    ├── 📂 keypoints                         [17MB]
+    └── 📂 split                             [130KB 2개의 파일]
 ```
 
 ### File List limit
 
 > $ treeview -n 1 3d_car_instance_sample
 ```
-📂 3d_car_instance_sample [2 GB]
-└──📂 3d_car_instance_sample [2 GB]
-    ├──📂 camera [340 B    2 개의 파일]
-    │   └── 5.cam [169 B]
-    ├──📂 car_models [25 MB    79 개의 파일]
-    │   └── 019-SUV.pkl [338 KB]
-    ├──📂 car_poses [1 MB    1,003 개의 파일]
-    │   └── 180116_053947113_Camera_5.json [1 KB]
-    ├──📂 images [2 GB    1,003 개의 파일]
-    │   └── 180116_053947113_Camera_5.jpg [2 MB]
-    └──📂 split [29 KB    2 개의 파일]
-       └── train.txt [21 KB]
+ 📂 3d_car_instance_sample                   [2GB]
+    ├── 📂 camera                            [340B 2개의 파일]
+    │   └── 📄 5.cam [169B]
+    ├── 📂 car_models                        [25MB 79개의 파일]
+    │   └── 📄 019-SUV.pkl [338KB]
+    ├── 📂 car_poses                         [1MB 1,003개의 파일]
+    │   └── 📄 180116_053947113_Camera_5.json [1KB]
+    ├── 📂 images                            [2GB 1,003개의 파일]
+    │   └── 📄 180116_053947113_Camera_5.jpg [2MB]
+    └── 📂 split                             [29KB 2개의 파일]
+        └── 📄 train.txt [21KB]
 ```

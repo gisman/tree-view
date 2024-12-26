@@ -193,6 +193,11 @@ def main():
 
     args = parser.parse_args()
 
+    global DIRS_ONLY
+    global LEVEL
+    global MAX_FILES
+    global PRINT_FILES_FIRST
+
     DIRS_ONLY = args.d
     LEVEL = args.level
     if args.max_files < 0:

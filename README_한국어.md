@@ -1,65 +1,50 @@
-Metadata-Version: 2.1
-Name: gimi9_tree_view
-Version: 0.5.5
-Summary: Visual treeview utility
-Home-page: https://github.com/gisman/tree-view
-Author: gisman
-Author-email: gisman@gmail.com
-License: Apache-2.0
-Classifier: Programming Language :: Python :: 3
-Classifier: Operating System :: POSIX :: Linux
-Requires-Python: >=3.2
-Description-Content-Type: text/markdown
-License-File: LICENSE
-Requires-Dist: tomli
-Requires-Dist: wcwidth
-Requires-Dist: argparse
+# Gimi9 Tree View
 
-Improved version of the Linux tree utility.
+향상된 버전의 Linux tree 유틸리티입니다.
 
-Includes features useful for big data analysis and documentation.
+빅 데이터 분석 및 문서화에 유용한 기능을 포함하고 있습니다.
 
-Written for Python 3.12.3, works on Python 3.10 and above. It is expected to work on Python 3.2 and above.
+Python 3.12.3을 위해 작성되었으며, Python 3.10 이상에서 작동합니다. Python 3.2 이상에서도 작동할 것으로 예상됩니다.
 
-## Features
+## 기능
 
-* Tree structure output
-* Size: human-readable
-* File count
-* File list limit
-* Pretty diretory emoji 📂
+* 트리 구조 출력
+* 크기: 사람이 읽기 쉬운 형식
+* 파일 수
+* 파일 목록 제한
+* 예쁜 디렉토리 이모지 📂
 
-## Installation
+## 설치
 
 > $ pip install gimi9_tree_view
 
-## Usage
+## 사용법
 
-### Print help
+### 도움말 출력
 
 > $ treeview -h
 
 ```
-usage: treeview [-h] [-d] [-L LEVEL] [-n MAX_FILES] [-f] directory
+사용법: treeview [-h] [-d] [-L LEVEL] [-n MAX_FILES] [-f] directory
 
-List directory contents.
+디렉토리 내용을 나열합니다.
 
-positional arguments:
-  directory             Directory to read
+위치 인수:
+  directory             읽을 디렉토리
 
-options:
-  -h, --help            show this help message and exit
-  -d                    List directories only
+옵션:
+  -h, --help            이 도움말 메시지를 표시하고 종료합니다
+  -d                    디렉토리만 나열합니다
   -L LEVEL, --level LEVEL
-                        Descend only level directories deep
+                        지정한 깊이만큼 디렉토리를 내려갑니다
   -n MAX_FILES, --max-files MAX_FILES
-                        Print only N files in each directory
-  -f, --files-first     Print files before directories
+                        각 디렉토리에서 N개의 파일만 출력합니다
+  -f, --files-first     디렉토리보다 파일을 먼저 출력합니다
 
 github: https://github.com/gisman/tree-view
 ```
 
-### Default
+### 기본 사용법
 > $ treeview 3d_car_instance_sample
 
 ```
@@ -87,7 +72,7 @@ github: https://github.com/gisman/tree-view
         └── 📄 val.txt [8KB]
 ```
 
-### List directories only
+### 디렉토리만 나열
 
 > $ treeview -d 3d_car_instance_sample
 
@@ -100,7 +85,7 @@ github: https://github.com/gisman/tree-view
     └── 📂 split                             [29KB 2개의 파일]
 ```
 
-### Depth limit
+### 깊이 제한
 
 > $ treeview -d -L 1 train
 ```
@@ -113,7 +98,7 @@ github: https://github.com/gisman/tree-view
     └── 📂 split                             [130KB 2개의 파일]
 ```
 
-### File List limit
+### 파일 목록 제한
 
 > $ treeview -n 1 3d_car_instance_sample
 ```
@@ -129,3 +114,4 @@ github: https://github.com/gisman/tree-view
     └── 📂 split                             [29KB 2개의 파일]
         └── 📄 train.txt [21KB]
 ```
+
