@@ -14,6 +14,8 @@ Written for Python 3.12.3, works on Python 3.10 and above. It is expected to wor
 * File list limit
 * Pretty diretory emoji 📂
 
+* Note: Automatically excludes hidden files.
+
 ## Installation
 
 > $ pip install gimi9_tree_view
