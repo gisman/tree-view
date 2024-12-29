@@ -4,7 +4,7 @@ import argparse
 from wcwidth import wcswidth
 
 """
-github의 오픈소스 참고.
+This script is inspired by the open-source project available at:
 https://github.com/kddnewton/tree
 https://github.com/kddnewton/tree/blob/main/tree.py
 """
@@ -46,8 +46,6 @@ class Tree:
     def summary(self):
         return str(self.dirCount) + " directories, " + str(self.fileCount) + " files"
 
-    # def print_root(self, args.directory):
-
     def walk(self, directory, prefix="", depth=0, is_root=True):  # , num_files=0):
         if LEVEL > -1 and depth > LEVEL:
             return
@@ -68,29 +66,19 @@ class Tree:
         if DIRS_ONLY:
             filepaths = dir_only_paths
         else:
-            if PRINT_FILES_FIRST:  # 파일을 먼저 출력하고 디렉토리를 출력
+            if PRINT_FILES_FIRST:  # Print files first and then directories
                 filepaths = file_only_paths[:MAX_FILES] + dir_only_paths
-            else:  # 디렉토리를 먼저 출력하고 파일을 출력
+            else:  # Print directories first and then files
                 filepaths = dir_only_paths + file_only_paths[:MAX_FILES]
 
         for index in range(len(filepaths)):
-            # if filepaths[index][0] == ".":
-            #     continue
-
             absolute = os.path.join(directory, filepaths[index])
             is_dir_path = os.path.isdir(absolute)
             if is_dir_path:
-                # directory 출력
+                # print directory
                 emoji = "📂"
-                # num_files = len(
-                #     [
-                #         f
-                #         for f in os.listdir(absolute)
-                #         if os.path.isfile(os.path.join(absolute, f))
-                #     ]
-                # )
                 num_files = len(self.list_files(absolute, os.listdir(absolute)))
-                file_count_str = f" {num_files:,}개의 파일" if num_files > 0 else ""
+                file_count_str = f" {num_files:,} Files" if num_files > 0 else ""
                 dir_size = get_directory_size(absolute)
                 dir_size_str = f"{human_readable_size(dir_size)}"
 
@@ -111,7 +99,7 @@ class Tree:
 
             self.register(absolute)
 
-            if index == len(filepaths) - 1:  # 마지막 항목인 경우
+            if index == len(filepaths) - 1:  # If it is the last item
                 if PRINT_FILES_FIRST and not is_dir_path:
                     print(f"{prefix}{'' if is_root else '  '} {formatted_output}")
                 else:
@@ -141,7 +129,7 @@ class Tree:
             for filepath in all_filepaths
             if not os.path.isdir(os.path.join(directory, filepath))
             and filepath not in ("_.DS_Store", ".DS_Store")
-            and filepath[0] != "."  # 숨김파일 제외
+            and filepath[0] != "."  # Exclude hidden files
         ]
 
     def get_padding(self, prefix, is_root, directory_title):
@@ -158,13 +146,13 @@ def main():
         epilog="github: https://github.com/gisman/tree-view",
     )
 
-    # 디렉토리만 출력하는 옵션
+    # Option to list directories only
     parser.add_argument("directory", help="Directory to read")
     parser.add_argument(
         "-d", action="store_true", help="List directories only", default=False
     )
 
-    # 출력 Depth를 제한하는 옵션. 기본값은 -1
+    # Option to limit the output depth. Default is -1
     parser.add_argument(
         "-L",
         "--level",
@@ -173,7 +161,7 @@ def main():
         default=-1,
     )
 
-    # 디렉토리 내의 파일을 최대 N개 까지만 출력하는 옵션. 기본값은 4
+    # Option to print only up to N files in each directory. Default is 4
     parser.add_argument(
         "-n",
         "--max-files",
@@ -182,7 +170,7 @@ def main():
         default=4,
     )
 
-    # 파일을 먼저 출력하고 디렉토리를 출력하는 옵션
+    # Option to print files before directories
     parser.add_argument(
         "-f",
         "--files-first",
@@ -201,7 +189,7 @@ def main():
     DIRS_ONLY = args.d
     LEVEL = args.level
     if args.max_files < 0:
-        MAX_FILES = 1000000  # 100만개로 제한
+        MAX_FILES = 1000000  # Limit to 1 million
     else:
         MAX_FILES = args.max_files
 
