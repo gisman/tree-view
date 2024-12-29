@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="gimi9_tree_view",
-    version="0.5.5",
+    version="0.6.0",
     author="gisman",
     author_email="gisman@gmail.com",
     description="Visual treeview utility",

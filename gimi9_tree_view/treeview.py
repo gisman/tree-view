@@ -59,7 +59,11 @@ class Tree:
             filepath
             for filepath in all_filepaths
             if os.path.isdir(os.path.join(directory, filepath))
-            and filepath not in ["__MACOSX", "venv", ".git", ".idea", "node_modules"]
+            and filepath
+            not in ["__MACOSX", "venv", ".git", ".idea", "node_modules", "__pycache__"]
+            and (
+                filepath == "." or not filepath.startswith(".")
+            )  # Exclude hidden directories starting with "."
         ]
         file_only_paths = self.list_files(directory, all_filepaths)
 
@@ -78,7 +82,8 @@ class Tree:
                 # print directory
                 emoji = "📂"
                 num_files = len(self.list_files(absolute, os.listdir(absolute)))
-                file_count_str = f" {num_files:,} Files" if num_files > 0 else ""
+                s = "s" if num_files > 1 else ""
+                file_count_str = f", {num_files:,} File{s}" if num_files > 0 else ""
                 dir_size = get_directory_size(absolute)
                 dir_size_str = f"{human_readable_size(dir_size)}"
 
@@ -89,13 +94,23 @@ class Tree:
 
                 paddding = self.get_padding(prefix, is_root, directory_title)
 
-                formatted_output = f"{emoji} {directory_title}{' ' * paddding} [{dir_size_str}{file_count_str}]"
+                # color = "0;34m"  # blue
+                color = "1;34m"  # bold blue
+                # color = "4;34m"  # underline blue
+                # color = "1;94m"  # bodl High Intensity blue
+
+                formatted_output = f"{emoji} \033[{color}{directory_title}{' ' * paddding} [{dir_size_str}{file_count_str}]\033[0m"
             else:
                 # file 출력
                 emoji = "📄"
                 file_count_str = ""
                 dir_size_str = f"{human_readable_size(os.path.getsize(absolute))}"
-                formatted_output = f"{emoji} {filepaths[index]} [{dir_size_str}]"
+
+                paddding = self.get_padding(prefix, False, filepaths[index])
+
+                formatted_output = (
+                    f"{emoji} {filepaths[index]}{' ' * paddding} [{dir_size_str}]"
+                )
 
             self.register(absolute)
 
