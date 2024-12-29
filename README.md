@@ -6,6 +6,9 @@ Includes features useful for big data analysis and documentation.
 
 Written for Python 3.12.3, works on Python 3.10 and above. It is expected to work on Python 3.2 and above.
 
+![image](https://github.com/user-attachments/assets/43f41206-36bd-4655-b83a-a8cd2ae0f3ce)
+
+
 ## Features
 
 * Tree structure output
