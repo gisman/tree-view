@@ -1,20 +1,12 @@
 # Gimi9 Tree View
 
-Improved version of the Linux tree utility.
+Print tree structure utility.
 
-Includes features useful for big data analysis and documentation.
+It helps you quickly understand the directory structure and is especially useful for documentation.
 
 Written for Python 3.12.3, works on Python 3.10 and above. It is expected to work on Python 3.2 and above.
 
 ![image](https://github.com/user-attachments/assets/cc2a9da3-4a84-44a3-85ff-3f2af9cf89cd)
-
-## Features
-
-* Tree structure output
-* Size: human-readable
-* File count
-* File list limit
-* Pretty diretory emoji 📂
 
 * Note: Automatically excludes hidden files.
 
