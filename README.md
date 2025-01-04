@@ -1,4 +1,4 @@
-# Gimi9 Tree View
+# gimi9_tree_view
 
 Print tree structure utility.
 
