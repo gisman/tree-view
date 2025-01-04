@@ -1,8 +1,8 @@
 # tree_view
 
-Print tree structure utility.
+Print size and file count of directory content with tree.
 
-It helps you quickly understand the directory structure and is especially useful for documentation.
+It helps you quickly understand the directory structure and is especially **useful for documentation**.
 
 Written for Python 3.12.3, works on Python 3.10 and above. It is expected to work on Python 3.2 and above.
 
