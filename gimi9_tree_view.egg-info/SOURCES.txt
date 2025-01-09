@@ -9,3 +9,4 @@ gimi9_tree_view.egg-info/dependency_links.txt
 gimi9_tree_view.egg-info/entry_points.txt
 gimi9_tree_view.egg-info/requires.txt
 gimi9_tree_view.egg-info/top_level.txt
+tests/test_treeview.py

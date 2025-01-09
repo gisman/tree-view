@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: gimi9_tree_view
-Version: 0.5.5
+Version: 0.6.0
 Summary: Visual treeview utility
 Home-page: https://github.com/gisman/tree-view
 Author: gisman
@@ -15,6 +15,8 @@ Requires-Dist: tomli
 Requires-Dist: wcwidth
 Requires-Dist: argparse
 
+# Gimi9 Tree View
+
 Improved version of the Linux tree utility.
 
 Includes features useful for big data analysis and documentation.
@@ -28,6 +30,8 @@ Written for Python 3.12.3, works on Python 3.10 and above. It is expected to wor
 * File count
 * File list limit
 * Pretty diretory emoji 📂
+
+* Note: Automatically excludes hidden files.
 
 ## Installation
 
@@ -60,72 +64,102 @@ github: https://github.com/gisman/tree-view
 ```
 
 ### Default
-> $ treeview 3d_car_instance_sample
+
+Full depth directory listing, 4 files per directory by default.
+
+> $ treeview gimi9_tree_view
 
 ```
- 📂 3d_car_instance_sample                   [2GB]
-    ├── 📂 camera                            [340B 2개의 파일]
-    │   ├── 📄 5.cam [169B]
-    │   └── 📄 6.cam [171B]
-    ├── 📂 car_models                        [25MB 79개의 파일]
-    │   ├── 📄 019-SUV.pkl [338KB]
-    │   ├── 📄 036-CAR01.pkl [329KB]
-    │   ├── 📄 037-CAR02.pkl [354KB]
-    │   └── 📄 MG-GT-2015.pkl [313KB]
-    ├── 📂 car_poses                         [1MB 1,003개의 파일]
-    │   ├── 📄 180116_053947113_Camera_5.json [1KB]
-    │   ├── 📄 180116_053947909_Camera_5.json [2KB]
-    │   ├── 📄 180116_053948523_Camera_5.json [2KB]
-    │   └── 📄 180116_053949115_Camera_5.json [1KB]
-    ├── 📂 images                            [2GB 1,003개의 파일]
-    │   ├── 📄 180116_053947113_Camera_5.jpg [2MB]
-    │   ├── 📄 180116_053947909_Camera_5.jpg [2MB]
-    │   ├── 📄 180116_053948523_Camera_5.jpg [2MB]
-    │   └── 📄 180116_053949115_Camera_5.jpg [2MB]
-    └── 📂 split                             [29KB 2개의 파일]
-        ├── 📄 train.txt [21KB]
-        └── 📄 val.txt [8KB]
+ 📂 gimi9_tree_view                          [70MB, 9 Files]
+    ├── 📂 build                             [12KB]
+    │   ├── 📂 bdist.linux-x86_64            [0B]
+    │   └── 📂 lib                           [12KB]
+    │       └── 📂 gimi9_tree_view           [12KB, 3 Files]
+    │           ├── 📄 __init__.py           [0B]
+    │           ├── 📄 tree.py               [5KB]
+    │           └── 📄 treeview.py           [7KB]
+    ├── 📂 dist                              [19KB, 2 Files]
+    │   ├── 📄 gimi9_tree_view-0.5.3-py3-none-any.whl [10KB]
+    │   └── 📄 gimi9_tree_view-0.5.3.tar.gz  [8KB]
+    ├── 📂 gimi9_tree_view                   [15KB, 2 Files]
+    │   ├── 📄 __init__.py                   [0B]
+    │   └── 📄 treeview.py                   [7KB]
+    ├── 📂 gimi9_tree_view.egg-info          [5KB, 6 Files]
+    │   ├── 📄 PKG-INFO                      [4KB]
+    │   ├── 📄 SOURCES.txt                   [318B]
+    │   ├── 📄 dependency_links.txt          [1B]
+    │   └── 📄 entry_points.txt              [59B]
+    ├── 📂 tests                             [4KB, 1 File]
+    │   └── 📄 test_treeview.py              [1KB]
+    ├── 📂 tree_view.egg-info                [4KB, 5 Files]
+    │   ├── 📄 PKG-INFO                      [4KB]
+    │   ├── 📄 SOURCES.txt                   [190B]
+    │   ├── 📄 dependency_links.txt          [1B]
+    │   └── 📄 requires.txt                  [87B]
+    ├── 📄 CONTRIBUTING.md                   [2KB]
+    ├── 📄 LICENSE                           [11KB]
+    ├── 📄 Main_slow_UNUSED.py               [5KB]
+    └── 📄 README.md                         [5KB]
 ```
 
 ### List directories only
 
-> $ treeview -d 3d_car_instance_sample
+> $ treeview -d gimi9_tree_view
 
 ```
- 📂 3d_car_instance_sample                   [2GB]
-    ├── 📂 camera                            [340B 2개의 파일]
-    ├── 📂 car_models                        [25MB 79개의 파일]
-    ├── 📂 car_poses                         [1MB 1,003개의 파일]
-    ├── 📂 images                            [2GB 1,003개의 파일]
-    └── 📂 split                             [29KB 2개의 파일]
+ 📂 gimi9_tree_view                          [70MB, 9 Files]
+    ├── 📂 build                             [12KB]
+    │   ├── 📂 bdist.linux-x86_64            [0B]
+    │   └── 📂 lib                           [12KB]
+    │       └── 📂 gimi9_tree_view           [12KB, 3 Files]
+    ├── 📂 dist                              [19KB, 2 Files]
+    ├── 📂 gimi9_tree_view                   [15KB, 2 Files]
+    ├── 📂 gimi9_tree_view.egg-info          [5KB, 6 Files]
+    ├── 📂 tests                             [4KB, 1 File]
+    └── 📂 tree_view.egg-info                [4KB, 5 Files]
 ```
 
-### Depth limit
+### Directory depth limit
 
-> $ treeview -d -L 1 train
+Print directories only with the -d option and limit depth to 1 level
+
+> $ treeview -d -L 1 gimi9_tree_view
 ```
- 📂 train                                    [9GB 1개의 파일]
-    ├── 📂 camera                            [66B 1개의 파일]
-    ├── 📂 car_poses                         [12MB 4,283개의 파일]
-    ├── 📂 ignore_mask                       [614MB 4,283개의 파일]
-    ├── 📂 images                            [8GB 4,283개의 파일]
-    ├── 📂 keypoints                         [17MB]
-    └── 📂 split                             [130KB 2개의 파일]
+ 📂 gimi9_tree_view                          [70MB, 9 Files]
+    ├── 📂 build                             [12KB]
+    ├── 📂 dist                              [19KB, 2 Files]
+    ├── 📂 gimi9_tree_view                   [15KB, 2 Files]
+    ├── 📂 gimi9_tree_view.egg-info          [5KB, 6 Files]
+    ├── 📂 tests                             [4KB, 1 File]
+    └── 📂 tree_view.egg-info                [4KB, 5 Files]
 ```
 
 ### File List limit
+Print 2 files per directory. Specify -1 to print the entire file list.
 
-> $ treeview -n 1 3d_car_instance_sample
+> $ treeview -n 2 gimi9_tree_view
 ```
- 📂 3d_car_instance_sample                   [2GB]
-    ├── 📂 camera                            [340B 2개의 파일]
-    │   └── 📄 5.cam [169B]
-    ├── 📂 car_models                        [25MB 79개의 파일]
-    │   └── 📄 019-SUV.pkl [338KB]
-    ├── 📂 car_poses                         [1MB 1,003개의 파일]
-    │   └── 📄 180116_053947113_Camera_5.json [1KB]
-    ├── 📂 images                            [2GB 1,003개의 파일]
-    │   └── 📄 180116_053947113_Camera_5.jpg [2MB]
-    └── 📂 split                             [29KB 2개의 파일]
-        └── 📄 train.txt [21KB]
+ 📂 gimi9_tree_view                          [70MB, 9 Files]
+    ├── 📂 build                             [12KB]
+    │   ├── 📂 bdist.linux-x86_64            [0B]
+    │   └── 📂 lib                           [12KB]
+    │       └── 📂 gimi9_tree_view           [12KB, 3 Files]
+    │           ├── 📄 __init__.py           [0B]
+    │           └── 📄 tree.py               [5KB]
+    ├── 📂 dist                              [19KB, 2 Files]
+    │   ├── 📄 gimi9_tree_view-0.5.3-py3-none-any.whl [10KB]
+    │   └── 📄 gimi9_tree_view-0.5.3.tar.gz  [8KB]
+    ├── 📂 gimi9_tree_view                   [15KB, 2 Files]
+    │   ├── 📄 __init__.py                   [0B]
+    │   └── 📄 treeview.py                   [7KB]
+    ├── 📂 gimi9_tree_view.egg-info          [5KB, 6 Files]
+    │   ├── 📄 PKG-INFO                      [4KB]
+    │   └── 📄 SOURCES.txt                   [318B]
+    ├── 📂 tests                             [4KB, 1 File]
+    │   └── 📄 test_treeview.py              [1KB]
+    ├── 📂 tree_view.egg-info                [4KB, 5 Files]
+    │   ├── 📄 PKG-INFO                      [4KB]
+    │   └── 📄 SOURCES.txt                   [190B]
+    ├── 📄 CONTRIBUTING.md                   [2KB]
+    └── 📄 LICENSE                           [11KB]
 ```

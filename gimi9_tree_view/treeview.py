@@ -95,9 +95,9 @@ class Tree:
                 paddding = self.get_padding(prefix, is_root, directory_title)
 
                 # color = "0;34m"  # blue
-                color = "1;34m"  # bold blue
+                # color = "1;34m"  # bold blue
                 # color = "4;34m"  # underline blue
-                # color = "1;94m"  # bodl High Intensity blue
+                color = "1;94m"  # bodl High Intensity blue
 
                 formatted_output = f"{emoji} \033[{color}{directory_title}{' ' * paddding} [{dir_size_str}{file_count_str}]\033[0m"
             else:
